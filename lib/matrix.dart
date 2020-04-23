@@ -79,6 +79,11 @@ class Matrix {
   }
 
   @override
+  bool operator ==(Object other) {
+    return (other is Matrix) && (other.data() == this.data());
+  }
+
+  @override
   Matrix operator +(Matrix other) {
     if (other.shape() != this.shape()) {
       throw ArgumentError.value('${other.shape()}', 'other shape',
