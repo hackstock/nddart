@@ -43,6 +43,11 @@ class Matrix {
     return Shape(_values.length, _values[0].length);
   }
 
+  /// Returns internal matrix values as List<List<double>>
+  List<List<double>> data() {
+    return this._values;
+  }
+
   /// Creates a [Matrix] of the given [shape] and initializes each value to the specified [value]
   static Matrix filled(double value, Shape shape) {
     var values = List.generate(
@@ -69,7 +74,7 @@ class Matrix {
 
   @override
   String toString() {
-    var out = 'Matrix(shape: ${shape()}, values: $_values)';
+    var out = 'Matrix(shape: ${this.shape()}, values: ${this.data()})';
     return out;
   }
 
@@ -95,4 +100,3 @@ class Matrix {
     return Matrix(result.cast<List<double>>());
   }
 }
-
