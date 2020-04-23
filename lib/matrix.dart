@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 /// Shape is a simple structure for the explicit
 /// representation of the row and column dimensions
 /// of an instance of [Matrix]
@@ -80,7 +82,8 @@ class Matrix {
 
   @override
   bool operator ==(Object other) {
-    return (other is Matrix) && (other.data() == this.data());
+    return (other is Matrix) &&
+        IterableEquality().equals(other.data(), this.data());
   }
 
   @override
@@ -97,6 +100,72 @@ class Matrix {
       var otherRow = other._values[ix];
       row.asMap().forEach((i, val) {
         resultRow.add(val + otherRow[i]);
+      });
+
+      result.add(resultRow);
+    });
+
+    return Matrix(result.cast<List<double>>());
+  }
+
+  @override
+  Matrix operator -(Matrix other) {
+    if (other.shape() != this.shape()) {
+      throw ArgumentError.value('${other.shape()}', 'other shape',
+          'shape of other matrix does not match ${this.shape()}');
+    }
+
+    List<List<double>> result = [];
+
+    this._values.asMap().forEach((ix, row) {
+      List<double> resultRow = [];
+      var otherRow = other._values[ix];
+      row.asMap().forEach((i, val) {
+        resultRow.add(val - otherRow[i]);
+      });
+
+      result.add(resultRow);
+    });
+
+    return Matrix(result.cast<List<double>>());
+  }
+
+  @override
+  Matrix operator *(Matrix other) {
+    if (other.shape() != this.shape()) {
+      throw ArgumentError.value('${other.shape()}', 'other shape',
+          'shape of other matrix does not match ${this.shape()}');
+    }
+
+    List<List<double>> result = [];
+
+    this._values.asMap().forEach((ix, row) {
+      List<double> resultRow = [];
+      var otherRow = other._values[ix];
+      row.asMap().forEach((i, val) {
+        resultRow.add(val * otherRow[i]);
+      });
+
+      result.add(resultRow);
+    });
+
+    return Matrix(result.cast<List<double>>());
+  }
+
+  @override
+  Matrix operator /(Matrix other) {
+    if (other.shape() != this.shape()) {
+      throw ArgumentError.value('${other.shape()}', 'other shape',
+          'shape of other matrix does not match ${this.shape()}');
+    }
+
+    List<List<double>> result = [];
+
+    this._values.asMap().forEach((ix, row) {
+      List<double> resultRow = [];
+      var otherRow = other._values[ix];
+      row.asMap().forEach((i, val) {
+        resultRow.add(val / otherRow[i]);
       });
 
       result.add(resultRow);
